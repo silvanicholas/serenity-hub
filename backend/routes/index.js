@@ -1,9 +1,9 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+// Simple API endpoint for testing
+router.get('/api/test', function(req, res, next) {
+  res.json({ message: 'Backend working' });
 });
 
 module.exports = router;
