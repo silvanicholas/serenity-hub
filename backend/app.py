@@ -13,7 +13,7 @@ def create_app():
     app = Flask(__name__)
 
     # App configuration
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///serenity_hub.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['JWT_SECRET_KEY'] = 'your_jwt_secret_key'
 
