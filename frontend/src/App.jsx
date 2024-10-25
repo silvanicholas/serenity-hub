@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Login from './components/Login'
 
 function App() {
   const [message, setMessage] = useState('');
@@ -12,9 +13,14 @@ function App() {
   }, []);
 
   return (
-    <div>
-      <h1>{message}</h1>
-    </div>
+    <Router>
+      <div>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} /> {/* Default route */}
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
