@@ -1,4 +1,11 @@
-    .pagecontainer{
-        background-color: darkolivegreen;
+.pagecontainer{
+    background: darkolivegreen;
+}
 
-    }
+.title {
+    color: black;
+  font-size: 70px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+}

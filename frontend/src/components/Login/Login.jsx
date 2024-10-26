@@ -5,9 +5,10 @@ import styles from './Login.module.css'
 
 const Login = () => {
 
-
     return(
-        <div className={styles.pagecontainer}> </div>
+        <div className={styles.pagecontainer}>
+            <div className={styles.title}>Serenity Hub</div>
+        </div>
         
     );
 

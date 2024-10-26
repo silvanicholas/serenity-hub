@@ -1,18 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import Login from './components/Login/Login'
-import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Login from './components/Login/Login';
 
-function App() {
-  const [message, setMessage] = useState('');
 
-  useEffect(() => {
-    // Fetch data from the Express backend (via the proxy)
-    fetch('/api/test')
-      .then((response) => response.json())
-      .then((data) => setMessage(data.message))
-      .catch((error) => console.error('Error fetching data:', error));
-  }, []);
-
+const App = () => {
   return (
     <Router>
       <div>
@@ -23,6 +14,6 @@ function App() {
       </div>
     </Router>
   );
-}
+};
 
 export default App;
