@@ -1,9 +1,12 @@
+@import '../../vars.css';
+
 .pagecontainer{
-    background: darkolivegreen;
+    background: var(--color-primary);
 }
 
 .title {
     color: black;
+  font-family: var(--font-nunito);
   font-size: 70px;
   font-weight: 700;
   margin-bottom: 20px;
