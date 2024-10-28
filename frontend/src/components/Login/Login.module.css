@@ -1,14 +1,126 @@
 @import '../../vars.css';
 
-.pagecontainer{
+.pagecontainer {
     background: var(--color-primary);
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .title {
-    color: black;
-  font-family: var(--font-nunito);
-  font-size: 70px;
-  font-weight: 700;
-  margin-bottom: 20px;
-  text-align: center;
+    font-family: var(--font-nunito), sans-serif;
+    color: var(--color-text);
+    font-size: 70px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.subTitle {
+    font-family: var(--font-nunito), sans-serif;
+    color: var(--color-text);
+    margin-bottom: 20px;
+    font-weight: 700;
+    font-size: 24px;
+    text-align: center;
+}
+
+/* Container for the form */
+.formContainer {
+    width: 320px;
+    padding: 25px;
+    background-color: var(--color-secondary);
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.formContainer:hover {
+    transform: scale(1.02);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Heading for login/signup */
+.heading {
+    color: var(--color-bg);
+    font-family: var(--font-nunito), sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Form styling */
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Input field styling */
+.input {
+    margin-bottom: 15px;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid var(--color-dark);
+    border-radius: 12px;
+    background-color: var(--color-secondary);
+    color: var(--color-text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input:focus {
+    border-color: #6d55d5;
+    box-shadow: 0 0 8px rgba(109, 85, 213, 0.4);
+}
+
+/* Button styling */
+.button {
+    padding: 12px;
+    background-color: var(--color-text);
+    color: var(--color-bg);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(109, 85, 213, 0.3);
+}
+
+.button:hover {
+    box-shadow: 0 8px 20px rgba(90, 71, 195, 0.4);
+}
+
+.button:active {
+    transform: scale(0.98);
+}
+
+/* Error message styling */
+.error {
+    color: #ff6b6b;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+/* Text below the form to toggle between login and signup */
+.toggleText {
+    margin-top: 20px;
+    color: var(--color-text);
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Link for switching between login and signup */
+.toggleLink {
+    color: #FFF;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.toggleLink:hover {
+    text-decoration: underline;
 }

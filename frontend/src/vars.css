@@ -1,9 +1,16 @@
 :root {
-    --color-text: #3a3a3a;
-    --color-primary: #A0D9D9;
-    --color-secondary: #703070;
-    --color-dark: #333333;
-    --color-bg: #1a1a1a;
+    /* Text Colors */
+    --color-text: #2e4a40;          /* Dark Olive Green - calm and grounding */
+    --color-bg: #f0f5f2;            /* Soft Mint - clean and refreshing background */
 
-    --font-nunito: "nunito";
+    /* Primary Colors */
+    --color-primary: #a8d5ba;       /* Light Sage Green - main accent color, soft and welcoming */
+    --color-secondary: #8cb596;     /* Moss Green - secondary accent, pairs well with primary */
+
+    /* Darker Accent Colors */
+    --color-dark: #2d6a4f;          /* Forest Green - deep contrast color for text or dark accents */
+    --color-highlight: #81b29a;     /* Soft Teal - for buttons, hover effects, or subtle highlights */
+
+    /* Font */
+    --font-nunito: "Nunito", sans-serif;
 }
