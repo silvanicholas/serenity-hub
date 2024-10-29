@@ -1,10 +1,9 @@
-.dashboardContainer {
+.pageContainer {
+    background: var(--color-primary);
     width: 100vw;
     height: 100vh;
-    overflow: hidden;
     display: flex;
-    justify-content: start;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #55aad5, #6d55d5);
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
   }

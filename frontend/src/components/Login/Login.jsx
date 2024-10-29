@@ -49,13 +49,6 @@ const Login = () => {
         <div className={styles.pagecontainer}>
             <div className={styles.title}>Serenity Hub</div>
             <div className={styles.subTitle}>An all in one Student Stress Reliever</div>
-
-            <Link to="/pomodoro" className={styles.pomodoroLink}>
-                Try Our Pomodoro Timer
-            </Link>
-
-
-
             <div className={styles.formContainer}>
                 <h2 className={styles.heading}>{isSignUp ? 'Sign Up' : 'Login'}</h2>
                 <form onSubmit={handleSubmit} className={styles.form}>
