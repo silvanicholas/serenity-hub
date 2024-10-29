@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.css'
 
 const Login = () => {
@@ -48,6 +49,13 @@ const Login = () => {
         <div className={styles.pagecontainer}>
             <div className={styles.title}>Serenity Hub</div>
             <div className={styles.subTitle}>An all in one Student Stress Reliever</div>
+
+            <Link to="/pomodoro" className={styles.pomodoroLink}>
+                Try Our Pomodoro Timer
+            </Link>
+
+
+
             <div className={styles.formContainer}>
                 <h2 className={styles.heading}>{isSignUp ? 'Sign Up' : 'Login'}</h2>
                 <form onSubmit={handleSubmit} className={styles.form}>

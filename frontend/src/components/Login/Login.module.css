@@ -53,6 +53,25 @@
     text-align: center;
 }
 
+.pomodoroLink {
+    display: inline-block;
+    padding: 12px 24px;
+    margin: 20px 0;
+    background-color: var(--color-text);
+    color: var(--color-bg);
+    text-decoration: none;
+    border-radius: 20px;
+    font-family: var(--font-nunito), sans-serif;
+    transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(109, 85, 213, 0.3);
+}
+
+.pomodoroLink:hover {
+    box-shadow: 0 8px 20px rgba(90, 71, 195, 0.4);
+    transform: translateY(-2px);
+}
+
+
 /* Form styling */
 .form {
     display: flex;
