@@ -62,16 +62,30 @@ def google_login():
         
         email = idinfo['email']
         name = idinfo.get('name', email.split('@')[0])
+        google_id = idinfo['sub']
 
         from models import User
 
         user = User.query.filter_by(email=email).first()
 
-        if not user:
-            user = User(username=name, email=email, profile_picture=idinfo.get('picture'), auth_provider='google')
+        if user:
+            user.google_id = google_id
+            user.profile_picture = idinfo.get('picture')
+            user.auth_provider = 'google'
+            if not user.username:
+                user.username = name
+
+        else:
+            user = User(username=name, email=email, profile_picture=idinfo.get('picture'), google_id=google_id, auth_provider='google')
             db.session.add(user)
-            db.session.commit()
         
+        try:
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error committing to database: {e}")
+            return jsonify({"error": "Database error"}), 500
+
         access_token = create_access_token(identity=user.id)
 
         return jsonify({
