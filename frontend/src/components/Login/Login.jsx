@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-//import { useNavigate } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
 import styles from './Login.module.css'
 
 const Login = () => {
@@ -44,6 +44,28 @@ const Login = () => {
             setErrorMessage(isSignUp ? 'Sign Up Failed. Please try again.' : 'Login Failed. Please check your credentials.');
         }
     };
+    
+    const handleGoogleLogin = async (credentialResponse) => {
+        try {
+            console.log('Google Response:', credentialResponse);
+
+            const response = await axios.post('/auth/google', {
+                credential: credentialResponse.credential
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if(response.data) {
+                localStorage.setItem('token', response.data.access_token);
+                localStorage.setItem('userName', response.data.username);
+                navigate('/dashboard');
+            }
+        } catch (error) {
+            console.error('Google Login Failed', error);
+            setErrorMessage(error.response?.data?.message || 'Google login failed. Please try again.');
+        }
+    }
 
     return(
         <div className={styles.pagecontainer}>
@@ -82,6 +104,16 @@ const Login = () => {
                     <button type="submit" className={styles.button}>
                         {isSignUp ? 'Sign Up' : 'Sign In'}
                     </button>
+
+                    <div className={styles.divider}>OR</div>
+                    <GoogleLogin
+                        onSuccess={handleGoogleLogin}
+                        onError={() => {
+                            console.log('Google Login Failed');
+                            setErrorMessage('Google login Failed. Please try again.');
+                        }}
+                        useOneTap
+                    />
                 </form>
                 <p className={styles.toggleText}>
                     {isSignUp ? "Already have an account?" : "Don't have an account?"}{' '}
