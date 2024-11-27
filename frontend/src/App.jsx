@@ -6,7 +6,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import PomodoroTimer from './components/PomodoroTimer/PomodoroTimer';
 import MeditationTimer from './components/MeditationTimer/MeditationTimer';
 import '@fontsource/nunito';
-
+import Progress from './components/Progress/Progress';
 
 const App = () => {
   const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
@@ -19,6 +19,7 @@ const App = () => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/pomodoro" element={<PomodoroTimer />} />
           <Route path="/meditation" element={<MeditationTimer />} />
+          <Route path="/progress" element={<Progress />} />
           <Route path="/" element={<Login />} /> {/* Default route */}
         </Routes>
       </div>

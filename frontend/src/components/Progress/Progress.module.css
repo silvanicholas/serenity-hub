@@ -1,0 +1,131 @@
+.pageContainer {
+    min-height: 100vh;
+    background: var(--color-bg);
+    font-family: var(--font-nunito);
+}
+
+.mainContent {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.headerSection {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.headerSection h1 {
+    color: var(--color-dark);
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.headerSection p {
+    color: var(--color-text);
+    font-size: 1.1rem;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.statCard {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.statCard:hover {
+    transform: translateY(-3px);
+}
+
+.statIcon {
+    background: var(--color-bg);
+    color: var(--color-dark);
+    padding: 1rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.statInfo h3 {
+    color: var(--color-text);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.statInfo p {
+    color: var(--color-dark);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.detailedStats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.progressCard {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.progressCard h3 {
+    color: var(--color-dark);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.progressBar {
+    height: 8px;
+    background: var(--color-bg);
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+
+.progressFill {
+    height: 100%;
+    background: var(--color-primary);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.progressCard p {
+    color: var(--color-text);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .mainContent {
+        padding: 1rem;
+    }
+
+    .headerSection h1 {
+        font-size: 1.5rem;
+    }
+
+    .statsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .statInfo p {
+        font-size: 1.2rem;
+    }
+}

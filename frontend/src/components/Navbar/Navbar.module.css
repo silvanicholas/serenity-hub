@@ -1,0 +1,88 @@
+@import '../../vars.css';
+
+.navbar {
+    background: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navLeft h1 {
+    color: var(--color-dark);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.navCenter {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.navLink {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--color-text);
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.navLink span {
+    font-size: 0.9rem;
+}
+
+.navLink:hover {
+    color: var(--color-dark);
+    background: var(--color-bg);
+}
+
+.navRight {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.username {
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+.logoutBtn {
+    background: none;
+    border: none;
+    color: var(--color-text);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.logoutBtn:hover {
+    color: var(--color-dark);
+    background: var(--color-bg);
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 1rem;
+    }
+
+    .navCenter {
+        gap: 1rem;
+    }
+
+    .navLink span {
+        display: none;
+    }
+
+    .username {
+        display: none;
+    }
+}

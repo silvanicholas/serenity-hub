@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { Timer, Brain, BarChart3 } from 'lucide-react';
 import styles from './Dashboard.module.css';
+import Navbar from '../Navbar/Navbar';
 
 const Dashboard = () => {
     const [username, setUsername] = useState('');
@@ -15,26 +17,9 @@ const Dashboard = () => {
         setUsername(storedUsername);
     }, [navigate]);
 
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('userName');
-        navigate('/login');
-    };
-
     return (
         <div className={styles.pageContainer}>
-            <nav className={styles.navbar}>
-                <div className={styles.navLeft}>
-                    <h1>Serenity Hub</h1>
-                </div>
-                <div className={styles.navRight}>
-                    <span className={styles.username}>{username}</span>
-                    <button onClick={handleLogout} className={styles.logoutBtn}>
-                        <i className="fas fa-sign-out-alt"></i>
-                    </button>
-                </div>
-            </nav>
-
+            <Navbar />
             <main className={styles.mainContent}>
                 <div className={styles.welcomeSection}>
                     <h2>Welcome back, {username}</h2>
@@ -44,7 +29,7 @@ const Dashboard = () => {
                 <div className={styles.cardGrid}>
                     <Link to="/pomodoro" className={styles.card}>
                         <div className={styles.cardIcon}>
-                            <i className="fas fa-clock"></i>
+                            <Timer size={32} />
                         </div>
                         <h3>Pomodoro Timer</h3>
                         <p>Focus with timed work sessions</p>
@@ -52,14 +37,14 @@ const Dashboard = () => {
 
                     <Link to="/meditation" className={styles.card}>
                         <div className={styles.cardIcon}>
-                            <i className="fas fa-om"></i>
+                            <Brain size={32} />
                         </div>
                         <h3>Meditation</h3>
                         <p>Clear your mind with guided sessions</p>
                     </Link>
-                    <Link to="/stats" className={styles.card}>
+                    <Link to="/progress" className={styles.card}>
                         <div className={styles.cardIcon}>
-                            <i className="fas fa-chart-line"></i>
+                            <BarChart3 size={32} />
                         </div>
                         <h3>Progress</h3>
                         <p>Track your productivity journey</p>

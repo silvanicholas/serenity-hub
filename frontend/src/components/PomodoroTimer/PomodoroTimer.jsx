@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Play, Pause, RotateCcw } from 'lucide-react';
+import Navbar from '../Navbar/Navbar';
 import styles from './PomodoroTimer.module.css';
 
 function PomodoroTimer() {
-  const navigate = useNavigate();
   const workTime = 25 * 60;
   const breakTime = 5 * 60;
 
   const [timeLeft, setTimeLeft] = useState(workTime);
   const [isRunning, setIsRunning] = useState(false);
   const [isWorkSession, setIsWorkSession] = useState(true);
+
+  const size = 300;
+  const center = size / 2;
+  const radius = size * 0.4;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference * (1 - timeLeft / (isWorkSession ? workTime : breakTime));
 
   useEffect(() => {
     let timer = null;
@@ -49,27 +55,72 @@ function PomodoroTimer() {
     setTimeLeft(workTime);
   };
 
-  const handleBack = () => {
-    navigate(-1);
-  };
-
   return (
     <div className={styles.pageContainer}>
-      <div className={styles.container}>
-        <button onClick={handleBack} className={styles.backButton}>
-          ← Back
-        </button>
-        <h1 className={styles.heading}>{isWorkSession ? 'Work Session' : 'Break Session'}</h1>
-        <div className={styles.timer}>{formatTime(timeLeft)}</div>
-        <div className={styles.buttons}>
-          <button onClick={handleStartPause} className={styles.button}>
-            {isRunning ? 'Pause' : 'Start'}
-          </button>
-          <button onClick={handleReset} className={styles.button}>
-            Reset
-          </button>
+      <Navbar />
+      <main className={styles.mainContent}>
+        <div className={styles.timerCard}>
+          <h1>{isWorkSession ? 'Work Session' : 'Break Time'}</h1>
+          <p className={styles.subtitle}>
+            {isWorkSession 
+              ? 'Stay focused on your task' 
+              : 'Take a moment to recharge'}
+          </p>
+
+          <div className={styles.timerContainer}>
+            <div className={styles.timerSvgWrapper}>
+              <svg width={size} height={size}>
+                {/* Background circle */}
+                <circle
+                  cx={center}
+                  cy={center}
+                  r={radius}
+                  fill="none"
+                  stroke="var(--color-secondary)"
+                  strokeWidth="10"
+                />
+                {/* Progress circle */}
+                <circle
+                  cx={center}
+                  cy={center}
+                  r={radius}
+                  fill="none"
+                  stroke="var(--color-primary)"
+                  strokeWidth="10"
+                  strokeLinecap="round"
+                  strokeDasharray={circumference}
+                  strokeDashoffset={strokeDashoffset}
+                  transform={`rotate(-90 ${center} ${center})`}
+                />
+                <text
+                  x={center}
+                  y={center}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  className={styles.timerText}
+                >
+                  {formatTime(timeLeft)}
+                </text>
+              </svg>
+            </div>
+          </div>
+
+          <div className={styles.buttonContainer}>
+            <button
+              onClick={handleStartPause}
+              className={`${styles.button} ${styles.primary}`}
+            >
+              {isRunning ? <Pause size={24} /> : <Play size={24} />}
+            </button>
+            <button
+              onClick={handleReset}
+              className={`${styles.button} ${styles.secondary}`}
+            >
+              <RotateCcw size={24} />
+            </button>
+          </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
