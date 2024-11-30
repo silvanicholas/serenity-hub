@@ -21,7 +21,7 @@ def create_app():
     CORS(app, resources={
         r"/*": {
             "origins": ["http://localhost:3000"],
-            "methods": ["GET", "POST", "OPTIONS"],
+            "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],  
             "allow_headers": ["Content-Type", "Authorization", "Access-Control-Allow-Origin"],
             "expose_headers": ["Access-Control-Allow-Origin"],
             "supports_credentials": True,
@@ -47,8 +47,12 @@ def create_app():
     # Register blueprints (for organizing routes)
     from routes.auth import auth_bp
     from routes.wellness import wellness_bp  
-    
+    from routes.journal import journal_bp
+
+
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(wellness_bp, url_prefix='/wellness')  
+    app.register_blueprint(journal_bp, url_prefix='/journal')  
+
 
     return app

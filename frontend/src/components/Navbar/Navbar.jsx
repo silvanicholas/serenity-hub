@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Timer, Brain, BarChart3, Home, LogOut } from 'lucide-react';
+import { Timer, Brain, BarChart3, Home, LogOut, Book } from 'lucide-react';  
 import styles from './Navbar.module.css';
 import { handleLogout } from '../../utils/auth';
 
@@ -29,6 +29,10 @@ const Navbar = () => {
                 <Link to="/progress" className={styles.navLink}>
                     <BarChart3 size={24} />
                     <span>Progress</span>
+                </Link>
+                <Link to="/journal" className={styles.navLink}>
+                    <Book size={24} />
+                    <span>Journal</span>
                 </Link>
             </div>
             <div className={styles.navRight}>
