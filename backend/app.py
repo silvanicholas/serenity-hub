@@ -15,16 +15,17 @@ bcrypt = Bcrypt()
 jwt = JWTManager()
 migrate = Migrate()
 
-
 def create_app():
     app = Flask(__name__)
     
     CORS(app, resources={
         r"/*": {
-            "origins": ["http://localhost:3000"],  # Your frontend URL
+            "origins": ["http://localhost:3000"],
             "methods": ["GET", "POST", "OPTIONS"],
-            "allow_headers": ["Content-Type", "Authorization"],
-            "supports_credentials": True
+            "allow_headers": ["Content-Type", "Authorization", "Access-Control-Allow-Origin"],
+            "expose_headers": ["Access-Control-Allow-Origin"],
+            "supports_credentials": True,
+            "allow_credentials": True
         }
     })
 
@@ -41,10 +42,13 @@ def create_app():
     migrate.init_app(app, db)
 
     # Enable CORS for all routes
-    CORS(app)
+    #CORS(app) #aparently redundant
 
     # Register blueprints (for organizing routes)
     from routes.auth import auth_bp
+    from routes.wellness import wellness_bp  
+    
     app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(wellness_bp, url_prefix='/wellness')  
 
     return app

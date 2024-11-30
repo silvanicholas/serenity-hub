@@ -4,15 +4,80 @@ import styles from './Progress.module.css';
 import Navbar from '../Navbar/Navbar';
 
 const Progress = () => {
-    // Example data - replace with actual data from your backend/localStorage
     const [stats, setStats] = useState({
-        totalFocusTime: '12h 30m',
-        totalMeditationTime: '5h 15m',
-        currentStreak: 7,
-        completedSessions: 42,
-        weeklyProgress: 68, // percentage
-        monthlyGoal: '80%'
+        totalFocusTime: 0,
+        totalMeditationTime: 0,
+        currentStreak: 0,
+        completedSessions: 0,
+        weeklyProgress: 0,
+        monthlyGoal: 0
     });
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        fetchProgress();
+        // Fetch progress every minute to keep it updated
+        const interval = setInterval(fetchProgress, 60000);
+        return () => clearInterval(interval);
+    }, []);
+
+    const fetchProgress = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/wellness/progress', {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error('Failed to fetch progress data');
+            }
+            
+            const data = await response.json();
+            
+            // Convert seconds to hours and minutes for display
+            const focusHours = Math.floor(data.totalFocusTime / 3600);
+            const focusMinutes = Math.floor((data.totalFocusTime % 3600) / 60);
+            const meditationHours = Math.floor(data.totalMeditationTime / 3600);
+            const meditationMinutes = Math.floor((data.totalMeditationTime % 3600) / 60);
+            
+            setStats({
+                totalFocusTime: `${focusHours}h ${focusMinutes}m`,
+                totalMeditationTime: `${meditationHours}h ${meditationMinutes}m`,
+                currentStreak: data.currentStreak,
+                completedSessions: data.completedSessions,
+                weeklyProgress: data.weeklyProgress,
+                monthlyGoal: `${data.monthlyGoal}%`
+            });
+            setLoading(false);
+        } catch (err) {
+            setError(err.message);
+            setLoading(false);
+        }
+    };
+
+    if (loading) {
+        return (
+            <div className={styles.pageContainer}>
+                <Navbar />
+                <div className={styles.loadingContainer}>
+                    <div className={styles.loading}>Loading progress...</div>
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className={styles.pageContainer}>
+                <Navbar />
+                <div className={styles.errorContainer}>
+                    <div className={styles.error}>Error: {error}</div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className={styles.pageContainer}>
@@ -79,7 +144,7 @@ const Progress = () => {
                         <div className={styles.progressBar}>
                             <div 
                                 className={styles.progressFill} 
-                                style={{ width: `${stats.weeklyProgress}%` }}
+                                style={{ width: `${Math.min(Math.max(stats.weeklyProgress, 0), 100)}%` }}
                             />
                         </div>
                         <p>{stats.weeklyProgress}% increase from last week</p>

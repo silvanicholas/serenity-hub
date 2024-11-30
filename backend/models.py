@@ -1,5 +1,44 @@
 from app import db
 
+
+class FocusSession(db.Model):
+    __tablename__ = "focus_sessions"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    start_time = db.Column(db.DateTime, nullable=False)
+    end_time = db.Column(db.DateTime)
+    duration = db.Column(db.Integer)  # in seconds
+    completed = db.Column(db.Boolean, default=False)
+    
+    user = db.relationship('User', backref=db.backref('focus_sessions', lazy=True))
+
+class MeditationSession(db.Model):
+    __tablename__ = "meditation_sessions"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    start_time = db.Column(db.DateTime, nullable=False)
+    end_time = db.Column(db.DateTime)
+    duration = db.Column(db.Integer)  # in seconds
+    completed = db.Column(db.Boolean, default=False)
+    
+    user = db.relationship('User', backref=db.backref('meditation_sessions', lazy=True))
+
+class UserProgress(db.Model):
+    __tablename__ = "user_progress"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    current_streak = db.Column(db.Integer, default=0)
+    last_activity_date = db.Column(db.Date)
+    weekly_goal = db.Column(db.Integer)  # in minutes
+    monthly_goal = db.Column(db.Integer)  # in minutes
+    
+    user = db.relationship('User', backref=db.backref('progress', uselist=False))
+
+
+
 class User(db.Model):
     __tablename__ = "users"
 

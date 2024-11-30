@@ -10,12 +10,22 @@ function PomodoroTimer() {
   const [timeLeft, setTimeLeft] = useState(workTime);
   const [isRunning, setIsRunning] = useState(false);
   const [isWorkSession, setIsWorkSession] = useState(true);
+  const [currentSessionId, setCurrentSessionId] = useState(null);
 
   const size = 300;
   const center = size / 2;
   const radius = size * 0.4;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference * (1 - timeLeft / (isWorkSession ? workTime : breakTime));
+
+  // Cleanup effect for component unmount
+  useEffect(() => {
+    return () => {
+      if (currentSessionId) {
+        endSession();
+      }
+    };
+  }, [currentSessionId]);
 
   useEffect(() => {
     let timer = null;
@@ -25,6 +35,7 @@ function PomodoroTimer() {
         setTimeLeft((prevTime) => prevTime - 1);
       }, 1000);
     } else if (timeLeft === 0) {
+      handleSessionComplete();
       if (isWorkSession) {
         setIsWorkSession(false);
         setTimeLeft(breakTime);
@@ -37,22 +48,82 @@ function PomodoroTimer() {
     return () => clearInterval(timer);
   }, [isRunning, timeLeft, isWorkSession]);
 
+  const startSession = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/wellness/focus/start', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        },
+        //credentials: 'include'
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to start session');
+      }
+
+      const data = await response.json();
+      console.log('Session started with ID:', data.session_id);
+      setCurrentSessionId(data.session_id);
+    } catch (error) {
+      console.error('Error starting session:', error);
+    }
+  };
+
+  const endSession = async () => {
+    if (!currentSessionId) return;
+    
+    try {
+      const response = await fetch(`http://localhost:5000/wellness/focus/end/${currentSessionId}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        },
+        //credentials: 'include'
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to end session');
+      }
+
+      console.log('Session ended successfully');
+      setCurrentSessionId(null);
+    } catch (error) {
+      console.error('Error ending session:', error);
+    }
+  };
+
+  const handleStartPause = async () => {
+    if (!isRunning && isWorkSession) {
+      await startSession();
+    }
+    setIsRunning(!isRunning);
+  };
+
+  const handleSessionComplete = async () => {
+    if (isWorkSession && currentSessionId) {
+      await endSession();
+    }
+    setIsRunning(false);
+  };
+
+  const handleReset = async () => {
+    if (currentSessionId) {
+      await endSession();
+    }
+    setIsRunning(false);
+    setIsWorkSession(true);
+    setTimeLeft(workTime);
+  };
+
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60)
       .toString()
       .padStart(2, '0');
     const secs = (seconds % 60).toString().padStart(2, '0');
     return `${mins}:${secs}`;
-  };
-
-  const handleStartPause = () => {
-    setIsRunning(!isRunning);
-  };
-
-  const handleReset = () => {
-    setIsRunning(false);
-    setIsWorkSession(true);
-    setTimeLeft(workTime);
   };
 
   return (
@@ -70,7 +141,6 @@ function PomodoroTimer() {
           <div className={styles.timerContainer}>
             <div className={styles.timerSvgWrapper}>
               <svg width={size} height={size}>
-                {/* Background circle */}
                 <circle
                   cx={center}
                   cy={center}
@@ -79,7 +149,6 @@ function PomodoroTimer() {
                   stroke="var(--color-secondary)"
                   strokeWidth="10"
                 />
-                {/* Progress circle */}
                 <circle
                   cx={center}
                   cy={center}
