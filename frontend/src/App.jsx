@@ -7,6 +7,7 @@ import PomodoroTimer from './components/PomodoroTimer/PomodoroTimer';
 import MeditationTimer from './components/MeditationTimer/MeditationTimer';
 import Progress from './components/Progress/Progress';
 import Journal from './components/Journal/Journal';
+import Footer from './components/Footer/Footer';
 import '@fontsource/nunito';
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/journal" element={<Journal />} />  {/* Journal */}
           <Route path="/" element={<Login />} />
         </Routes>
+        <Footer />
       </div>
     </Router>
     </GoogleOAuthProvider>
