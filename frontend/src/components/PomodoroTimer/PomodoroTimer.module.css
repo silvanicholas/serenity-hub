@@ -1,45 +1,47 @@
-@import '../../vars.css';
-
+/* Page Layout */
 .pageContainer {
   min-height: 100vh;
-  background: var(--color-bg);
-  font-family: var(--font-nunito);
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-color);
 }
 
 .mainContent {
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  flex: 1;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
+  padding: 2rem;
 }
 
 .timerCard {
-  background: white;
+  background-color: white;
+  border-radius: 8px;
   padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   text-align: center;
 }
 
-.timerCard h1 {
-  color: var(--color-dark);
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
+/* Header Styles */
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
 .subtitle {
-  color: var(--color-text);
-  font-size: 1.1rem;
+  color: var(--color-text-secondary);
   margin-bottom: 2rem;
 }
 
+/* Timer Styles */
 .timerContainer {
   display: flex;
   justify-content: center;
+  align-items: center;
   margin: 2rem 0;
 }
 
@@ -48,65 +50,161 @@
 }
 
 .timerText {
-  font-family: var(--font-nunito);
-  font-size: 3rem;
-  font-weight: 600;
-  fill: var(--color-dark);
+  font-size: 2.5rem;
+  font-weight: bold;
+  fill: var(--color-text-primary);
 }
 
+/* Button Styles */
 .buttonContainer {
   display: flex;
-  justify-content: center;
   gap: 1rem;
+  justify-content: center;
   margin-top: 2rem;
 }
 
 .button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
-.button.primary {
-  background: var(--color-primary);
-  color: var(--color-dark);
+.primary {
+  background-color: var(--color-primary);
+  color: white;
 }
 
-.button.primary:hover {
-  background: var(--color-highlight);
-  transform: translateY(-2px);
+.primary:hover {
+  background-color: var(--color-primary-dark);
 }
 
-.button.secondary {
+.secondary {
+  background-color: var(--color-secondary);
+  color: white;
+}
+
+.secondary:hover {
+  background-color: var(--color-secondary-dark);
+}
+
+/* Settings Button */
+.settingsButton {
+  background: none;
+  border: 1px solid var(--color-secondary);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-primary);
+  transition: all 0.2s ease;
+}
+
+.settingsButton:hover {
   background: var(--color-secondary);
   color: white;
 }
 
-.button.secondary:hover {
-  background: var(--color-dark);
-  transform: translateY(-2px);
+/* Dialog Styles */
+.dialogOverlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  inset: 0;
+  animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@media (max-width: 768px) {
-  .mainContent {
-    padding: 1rem;
-  }
+.dialogContent {
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 450px;
+  max-height: 85vh;
+  padding: 25px;
+  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
 
-  .timerCard {
-    padding: 1.5rem;
-  }
+.dialogTitle {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  color: var(--color-primary);
+}
 
-  .timerCard h1 {
-    font-size: 1.5rem;
-  }
+.settingsForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 
-  .timerText {
-    font-size: 2.5rem;
+.settingsField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.settingsField label {
+  font-size: 0.9rem;
+  color: var(--color-primary);
+}
+
+.input {
+  padding: 0.5rem;
+  border: 1px solid var(--color-secondary);
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.dialogButtons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.saveButton {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.saveButton:hover {
+  background-color: var(--color-primary-dark);
+}
+
+/* Animations */
+@keyframes overlayShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes contentShow {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
   }
 }

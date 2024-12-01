@@ -1,22 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { Play, Pause, RotateCcw } from 'lucide-react';
+import { Play, Pause, RotateCcw, Settings } from 'lucide-react';
+import * as Dialog from '@radix-ui/react-dialog';
 import Navbar from '../Navbar/Navbar';
 import styles from './PomodoroTimer.module.css';
 
 function PomodoroTimer() {
-  const workTime = 25 * 60;
-  const breakTime = 5 * 60;
-
-  const [timeLeft, setTimeLeft] = useState(workTime);
+  // Timer settings state
+  const [settings, setSettings] = useState({
+    workTime: 25,
+    breakTime: 5
+  });
+  
+  const [timeLeft, setTimeLeft] = useState(settings.workTime * 60);
   const [isRunning, setIsRunning] = useState(false);
   const [isWorkSession, setIsWorkSession] = useState(true);
   const [currentSessionId, setCurrentSessionId] = useState(null);
+  const [tempSettings, setTempSettings] = useState(settings);
 
   const size = 300;
   const center = size / 2;
   const radius = size * 0.4;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference * (1 - timeLeft / (isWorkSession ? workTime : breakTime));
+  const strokeDashoffset = circumference * (1 - timeLeft / (isWorkSession ? settings.workTime * 60 : settings.breakTime * 60));
+
+  // Update timer when settings change
+  useEffect(() => {
+    handleReset();
+  }, [settings]);
 
   // Cleanup effect for component unmount
   useEffect(() => {
@@ -38,15 +48,15 @@ function PomodoroTimer() {
       handleSessionComplete();
       if (isWorkSession) {
         setIsWorkSession(false);
-        setTimeLeft(breakTime);
+        setTimeLeft(settings.breakTime * 60);
       } else {
         setIsWorkSession(true);
-        setTimeLeft(workTime);
+        setTimeLeft(settings.workTime * 60);
       }
     }
 
     return () => clearInterval(timer);
-  }, [isRunning, timeLeft, isWorkSession]);
+  }, [isRunning, timeLeft, isWorkSession, settings]);
 
   const startSession = async () => {
     try {
@@ -55,8 +65,7 @@ function PomodoroTimer() {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'application/json'
-        },
-        //credentials: 'include'
+        }
       });
 
       if (!response.ok) {
@@ -80,8 +89,7 @@ function PomodoroTimer() {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'application/json'
-        },
-        //credentials: 'include'
+        }
       });
 
       if (!response.ok) {
@@ -115,7 +123,13 @@ function PomodoroTimer() {
     }
     setIsRunning(false);
     setIsWorkSession(true);
-    setTimeLeft(workTime);
+    setTimeLeft(settings.workTime * 60);
+  };
+
+  const handleSaveSettings = () => {
+    if (tempSettings.workTime > 0 && tempSettings.breakTime > 0) {
+      setSettings(tempSettings);
+    }
   };
 
   const formatTime = (seconds) => {
@@ -131,7 +145,63 @@ function PomodoroTimer() {
       <Navbar />
       <main className={styles.mainContent}>
         <div className={styles.timerCard}>
-          <h1>{isWorkSession ? 'Work Session' : 'Break Time'}</h1>
+          <div className={styles.headerContainer}>
+            <h1>{isWorkSession ? 'Work Session' : 'Break Time'}</h1>
+            <Dialog.Root>
+              <Dialog.Trigger asChild>
+                <button className={styles.settingsButton}>
+                  <Settings size={20} />
+                </button>
+              </Dialog.Trigger>
+              <Dialog.Portal>
+                <Dialog.Overlay className={styles.dialogOverlay} />
+                <Dialog.Content className={styles.dialogContent}>
+                  <Dialog.Title className={styles.dialogTitle}>
+                    Timer Settings
+                  </Dialog.Title>
+                  <div className={styles.settingsForm}>
+                    <div className={styles.settingsField}>
+                      <label>Work Duration (minutes)</label>
+                      <input
+                        type="number"
+                        min="1"
+                        value={tempSettings.workTime}
+                        onChange={(e) => setTempSettings({
+                          ...tempSettings,
+                          workTime: parseInt(e.target.value) || 1
+                        })}
+                        className={styles.input}
+                      />
+                    </div>
+                    <div className={styles.settingsField}>
+                      <label>Break Duration (minutes)</label>
+                      <input
+                        type="number"
+                        min="1"
+                        value={tempSettings.breakTime}
+                        onChange={(e) => setTempSettings({
+                          ...tempSettings,
+                          breakTime: parseInt(e.target.value) || 1
+                        })}
+                        className={styles.input}
+                      />
+                    </div>
+                    <div className={styles.dialogButtons}>
+                      <Dialog.Close asChild>
+                        <button 
+                          onClick={handleSaveSettings}
+                          className={styles.saveButton}
+                        >
+                          Save Settings
+                        </button>
+                      </Dialog.Close>
+                    </div>
+                  </div>
+                </Dialog.Content>
+              </Dialog.Portal>
+            </Dialog.Root>
+          </div>
+
           <p className={styles.subtitle}>
             {isWorkSession 
               ? 'Stay focused on your task' 
