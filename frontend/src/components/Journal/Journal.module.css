@@ -1,6 +1,8 @@
+@import '../../vars.css';
+
 .pageContainer {
   min-height: 100vh;
-  background-color: #f7f7f7;
+  background-color: var(--color-bg);
 }
 
 .mainContent {
@@ -17,8 +19,9 @@
 }
 
 .header h1 {
-  color: var(--color-primary);
-  margin: 0;
+  color: var(--color-dark);
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
 }
 
 .newEntryButton {
@@ -26,7 +29,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background-color: var(--color-primary);
+  background-color: var(--color-dark);
   color: white;
   border: none;
   border-radius: 6px;
@@ -36,7 +39,7 @@
 }
 
 .newEntryButton:hover {
-  background-color: var(--color-primary-dark);
+  background-color: var(--color-primary);
 }
 
 .entriesList {
@@ -61,7 +64,7 @@
 
 .entryHeader h2 {
   margin: 0;
-  color: var(--color-primary);
+  color: var(--color-dark);
   font-size: 1.5rem;
 }
 

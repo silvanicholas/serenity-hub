@@ -149,21 +149,6 @@ const Progress = () => {
                         </div>
                         <p>{stats.weeklyProgress}% increase from last week</p>
                     </div>
-
-                    {/* Monthly Goal */}
-                    <div className={styles.progressCard}>
-                        <h3>
-                            <Target size={20} />
-                            Monthly Goal
-                        </h3>
-                        <div className={styles.progressBar}>
-                            <div 
-                                className={styles.progressFill} 
-                                style={{ width: stats.monthlyGoal }}
-                            />
-                        </div>
-                        <p>{stats.monthlyGoal} completed</p>
-                    </div>
                 </div>
             </main>
         </div>
